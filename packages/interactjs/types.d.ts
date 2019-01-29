@@ -2,264 +2,282 @@
 // Project: http://interactjs.io/
 // Definitions by: Gaspard Bucher <feature-space.com>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 import Interactable from '@interactjs/core/Interactable';
 import { Action } from '@interactjs/core/Interaction';
 
+
 declare namespace Interact {
-  type Target = Element | String
+  type Target = Element | String;
 
   interface Point {
-    x: number
-    y: number
+    x: number;
+    y: number;
   }
 
   interface SnapPosition {
-    x: number
-    y: number
-    range?: number
+    x: number;
+    y: number;
+    range?: number;
   }
 
   interface Rect {
-    top: number
-    left: number
-    bottom: number
-    right: number
+    top: number;
+    left: number;
+    bottom: number;
+    right: number;
   }
 
   interface Rect2 {
-    x: number
-    y: number
-    width: number
-    height: number
+    x: number;
+    y: number;
+    width: number;
+    height: number;
   }
 
   interface Rect3 {
-    width: number
-    height: number
+    width: number;
+    height: number;
   }
 
   interface SnapFunction {
-    ( x: number, y: number ) : SnapPosition
+    (x: number, y: number): SnapPosition;
   }
 
-  type SnapTarget = SnapPosition | SnapFunction
+  type SnapTarget = SnapPosition | SnapFunction;
   type SnapOptions = {
-    targets?: SnapTarget[]
+    targets?: SnapTarget[];
     // target range
-    range?: number
+    range?: number;
     // self points for snappin [0,0] = top-left, [1,1] = bottom righ
-    relativePoints?: Point[]
+    relativePoints?: Point[];
     // startCoords = offset snapping from drag start page position
-    offset?: Point | 'startCoords'
-  }
+    offset?: Point | "startCoords";
+  };
 
   interface InertiaOption {
-    resistance?: number
-    minSpeed?: number
-    endSpeed?: number
-    allowResume?: boolean
-    zeroResumeDelta?: boolean
-    smoothEndDuration?: number
+    resistance?: number;
+    minSpeed?: number;
+    endSpeed?: number;
+    allowResume?: boolean;
+    zeroResumeDelta?: boolean;
+    smoothEndDuration?: number;
   }
-  type InertiaOptions = InertiaOption | boolean
+  type InertiaOptions = InertiaOption | boolean;
 
   interface AutoScrollOption {
-    container?: DOMElement
-    margin?: number
-    distance?: number
-    interval?: number
+    container?: DOMElement;
+    margin?: number;
+    distance?: number;
+    interval?: number;
+    speed?: number;
   }
-  type AutoScrollOptions = AutoScrollOption | boolean
+  type AutoScrollOptions = AutoScrollOption | boolean;
 
-  type CSSSelector = string
-  type DOMElement = any
+  type CSSSelector = string;
+  type DOMElement = any;
 
   type RestrictOption = {
     // where to drag over
-    restriction?: Rect | Rect2 | CSSSelector | DOMElement | 'self' | 'parent'
+    restriction?: Rect | Rect2 | CSSSelector | DOMElement | "self" | "parent";
     // what part of self is allowed to drag over
-    elementRect?: Rect
+    elementRect?: Rect;
     // restrict just before the end drag
-    endOnly?: boolean
-  }
+    endOnly?: boolean;
+  };
 
   interface RestrictSizeOption {
-    min?: Rect3
-    max?: Rect3
+    min?: Rect3;
+    max?: Rect3;
   }
 
   interface EdgeOptions {
-    top?: boolean | CSSSelector | DOMElement
-    left?: boolean | CSSSelector | DOMElement
-    bottom?: boolean | CSSSelector | DOMElement
-    right?: boolean | CSSSelector | DOMElement
+    top?: boolean | CSSSelector | DOMElement;
+    left?: boolean | CSSSelector | DOMElement;
+    bottom?: boolean | CSSSelector | DOMElement;
+    right?: boolean | CSSSelector | DOMElement;
   }
 
   interface CommonOptions {
-    enabled?: boolean
-    allowFrom?: string
-    ignoreFrom?: string
-    max?: number
-    maxPerElement?: number
-    manualStart?: boolean
-    hold?: number
-    snap?: SnapOptions
-    restrict?: RestrictOption
-    inertia?: InertiaOptions
-    autoScroll?: AutoScrollOptions
-    onstart?: Listeners
-    onmove?: Listeners
-    onend?: Listeners
+    enabled?: boolean;
+    allowFrom?: string;
+    ignoreFrom?: string;
+    max?: number;
+    maxPerElement?: number;
+    manualStart?: boolean;
+    hold?: number;
+    snap?: SnapOptions;
+    restrict?: RestrictOption;
+    inertia?: InertiaOptions;
+    autoScroll?: AutoScrollOptions;
+    onstart?: Listeners;
+    onmove?: Listeners;
+    onend?: Listeners;
   }
 
-  interface DraggableOptions extends CommonOptions{
-    axis?: 'x' | 'y'
-    oninertiastart?: Listeners
+  interface DraggableOptions extends CommonOptions {
+    axis?: "x" | "y";
+    oninertiastart?: Listeners;
   }
 
   interface ResizableOptions extends CommonOptions {
-    snapSize?: SnapOptions
-    restrictSize?: RestrictSizeOption
-    square?: boolean
-    edges?: EdgeOptions
+    snapSize?: SnapOptions;
+    restrictSize?: RestrictSizeOption;
+    square?: boolean;
+    edges?: EdgeOptions;
     // deprecated
-    axis?: 'x' | 'y'
+    axis?: "x" | "y";
     //
-    invert?: 'none' | 'negate' | 'reposition'
-    squareResize?: boolean
-    oninertiastart?: Listeners
+    invert?: "none" | "negate" | "reposition";
+    squareResize?: boolean;
+    oninertiastart?: Listeners;
   }
 
-  interface GesturableOptions extends CommonOptions {
-  }
+  interface GesturableOptions extends CommonOptions {}
 
   interface Interaction {
-    doMove () : void
-    end ( event: PointerEvent ): void
-    start ( action: Action ): any
-    stop () : void
+    doMove(): void;
+    end(event: PointerEvent): void;
+    start(action: Action): any;
+    stop(): void;
   }
 
   interface ActionChecker {
-    ( pointerEvent: any
-    , defaultAction: string
-    , interactable: Interactable
-    , element: DOMElement
-    , interaction: Interaction
-    ): Action }
+    (
+      pointerEvent: any,
+      defaultAction: string,
+      interactable: Interactable,
+      element: DOMElement,
+      interaction: Interaction
+    ): Action;
+  }
 
   interface DropFunctionChecker {
-    ( dragEvent: any // related drag operation
-    , event: any // touch or mouse EventEmitter
-    , dropped: boolean // default checker result
-    , dropzone: Interactable // dropzone interactable
-    , dropElement: DOMElement // drop zone element
-    , draggable: Interactable // draggable's Interactable
-    , draggableElement: DOMElement // dragged element
-    ) : boolean
+    (
+      dragEvent: any, // related drag operation
+      event: any, // touch or mouse EventEmitter
+      dropped: boolean, // default checker result
+      dropzone: Interactable, // dropzone interactable
+      dropElement: DOMElement, // drop zone element
+      draggable: Interactable, // draggable's Interactable
+      draggableElement: DOMElement // dragged element
+    ): boolean;
   }
 
   interface DropZoneOptions {
-    accept?: CSSSelector
+    accept?: CSSSelector;
     // How the overlap is checked on the drop zone
-    overlap?: 'pointer' | 'center' | number
-    checker?: DropFunctionChecker
+    overlap?: "pointer" | "center" | number;
+    checker?: DropFunctionChecker;
 
-    ondropactivate?: Listeners
-    ondropdeactivate?: Listeners
-    ondragenter?: Listeners
-    ondragleave?: Listeners
-    ondropmove?: Listeners
-    ondrop?: Listeners
+    ondropactivate?: Listeners;
+    ondropdeactivate?: Listeners;
+    ondragenter?: Listeners;
+    ondragleave?: Listeners;
+    ondropmove?: Listeners;
+    ondrop?: Listeners;
   }
 
   interface OriginFunction {
-    ( target: DOMElement ) : 'self' | 'parent' | Rect | Point | CSSSelector | DOMElement;
+    (target: DOMElement):
+      | "self"
+      | "parent"
+      | Rect
+      | Point
+      | CSSSelector
+      | DOMElement;
   }
 
   interface PointerEventsOptions {
-    holdDuration?: number
-    allowFrom?: string
-    ignoreFrom?: string
-    origin?: 'self' | 'parent' | Rect | Point | CSSSelector | DOMElement | OriginFunction;
+    holdDuration?: number;
+    allowFrom?: string;
+    ignoreFrom?: string;
+    origin?:
+      | "self"
+      | "parent"
+      | Rect
+      | Point
+      | CSSSelector
+      | DOMElement
+      | OriginFunction;
   }
 
   interface RectChecker {
-    ( element: Element ) : Partial<Rect & Rect3>
+    (element: Element): Partial<Rect & Rect3>;
   }
 
   type PointerEventType = MouseEvent | TouchEvent | PointerEvent;
-  type PointerType = MouseEvent | Touch | PointerEvent
+  type PointerType = MouseEvent | Touch | PointerEvent;
 
-  type EventTypes = String | String[] | {
-    [index: string]: EventTypes | Listeners
-  }
+  type EventTypes =
+    | String
+    | String[]
+    | {
+        [index: string]: EventTypes | Listeners;
+      };
 
-  type Listeners = Function | Function[]
-
+  type Listeners = Function | Function[];
 
   type OnEventName =
-    'dragstart'
-    | 'dragmove'
-    | 'draginertiastart'
-    | 'dragend'
-    | 'resizestart'
-    | 'resizemove'
-    | 'resizeinertiastart'
-    | 'resizeend'
-    | 'gesturestart'
-    | 'gesturemove'
-    | 'gestureend'
+    | "dragstart"
+    | "dragmove"
+    | "draginertiastart"
+    | "dragend"
+    | "resizestart"
+    | "resizemove"
+    | "resizeinertiastart"
+    | "resizeend"
+    | "gesturestart"
+    | "gesturemove"
+    | "gestureend"
     // drop
-    | 'dropactivate'
-    | 'dropdeactivate'
-    | 'dragenter'
-    | 'dragleave'
-    | 'dropmove'
-    | 'drop'
+    | "dropactivate"
+    | "dropdeactivate"
+    | "dragenter"
+    | "dragleave"
+    | "dropmove"
+    | "drop"
     // pointer events
-    | 'down'
-    | 'move'
-    | 'up'
-    | 'cancel'
-    | 'tap'
-    | 'doubletap'
-    | 'hold'
+    | "down"
+    | "move"
+    | "up"
+    | "cancel"
+    | "tap"
+    | "doubletap"
+    | "hold";
 
   interface OnEventFunctions {
-    dragstart?: Listeners
-    dragmove?: Listeners
-    draginertiastart?: Listeners
-    dragend?: Listeners
-    resizestart?: Listeners
-    resizemove?: Listeners
-    resizeinertiastart?: Listeners
-    resizeend?: Listeners
-    gesturestart?: Listeners
-    gesturemove?: Listeners
-    gestureend?: Listeners
+    dragstart?: Listeners;
+    dragmove?: Listeners;
+    draginertiastart?: Listeners;
+    dragend?: Listeners;
+    resizestart?: Listeners;
+    resizemove?: Listeners;
+    resizeinertiastart?: Listeners;
+    resizeend?: Listeners;
+    gesturestart?: Listeners;
+    gesturemove?: Listeners;
+    gestureend?: Listeners;
     // drop
-    dropactivate?: Listeners
-    dropdeactivate?: Listeners
-    dragenter?: Listeners
-    dragleave?: Listeners
-    dropmove?: Listeners
-    drop?: Listeners
+    dropactivate?: Listeners;
+    dropdeactivate?: Listeners;
+    dragenter?: Listeners;
+    dragleave?: Listeners;
+    dropmove?: Listeners;
+    drop?: Listeners;
     // pointer events
-    down?: Listeners
-    move?: Listeners
-    up?: Listeners
-    cancel?: Listeners
-    tap?: Listeners
-    doubletap?: Listeners
-    hold?: Listeners
+    down?: Listeners;
+    move?: Listeners;
+    up?: Listeners;
+    cancel?: Listeners;
+    tap?: Listeners;
+    doubletap?: Listeners;
+    hold?: Listeners;
   }
 
-  type OnEvent = OnEventName | OnEventName[]
+  type OnEvent = OnEventName | OnEventName[];
 
   interface InteractOptions {
-    context?: DOMElement
+    context?: DOMElement;
   }
 
   /*

@@ -1,6 +1,5 @@
 {
-  "name": "@interactjs/_dev",
-  "private": "true",
+  "name": "levabala_interactjs",
   "version": "0.0.0",
   "bin": {
     "_dev": "scripts/_dev",
